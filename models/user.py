@@ -1,16 +1,16 @@
 from init import db, ma
 
-class User(db.model):
-    __tablename__ = "Users"
+class User(db.Model):
+    __tablename__ = "users"
 
-    UserId = db.Column(db.Integer, primary_key=True)
-    Username = db.Column(db.string, nullable=False, unique=True)
-    Password = db.Column(db.string, nullable=False)
-    IsAdmin = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('UserId', 'Username', 'Password', 'IsAdmin')
+        fields = ('user_id', 'username', 'password', 'is_admin')
 
 user_schema = UserSchema(exclude=['password']) # {}
 users_schema = UserSchema(many=True, exclude=['password']) # [{}, {}, {}]
