@@ -6,7 +6,7 @@ class Type(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String, nullable=False, unique=True)
 
-    reviews = db.relationship('Review', back_populates='Type')
+    reviews = db.relationship('Review', back_populates='type')
 
 class TypeSchema(ma.Schema):
     class Meta:

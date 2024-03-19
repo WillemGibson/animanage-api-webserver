@@ -9,14 +9,14 @@ class Review(db.Model):
     title = db.Column(db.String(255), nullable=False)
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     type_id = db.Column(db.Integer, db.ForeignKey('types.id'), nullable=False)
-    rating_id = db.Column(db.Integer, db.ForeignKey('ratings.id'), nullable=False)
+    rating_id = db.Column(db.Integer, db.ForeignKey('ratings.id'), nullable=True)
     # genre
     eps_watched = db.Column(db.Integer, nullable=True)
     eps_total = db.Column(db.Integer, nullable=True)
     date_started = db.Column(db.Date, nullable=True)
     date_finished = db.Column(db.Date, nullable=True)
-    recom =  db.Column(db.Boolean, default=False)
-    fav = db.Column(db.Boolean, default=False)
+    recom =  db.Column(db.Boolean, default=False, nullable=True)
+    fav = db.Column(db.Boolean, default=False, nullable=True)
     com = db.Column(db.String(2000), nullable=True) # String("Max length of an input")
 
     user = db.relationship('User', back_populates='reviews')

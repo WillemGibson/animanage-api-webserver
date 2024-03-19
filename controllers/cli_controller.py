@@ -1,6 +1,13 @@
+from datetime import datetime
+
 from flask import Blueprint
+
 from init import db, bcrypt
-from models.user import User
+from models.users import User
+from models.reviews import Review
+from models.status import Status
+from models.types import Type
+from models.ratings import Rating
 
 db_commands = Blueprint('db', __name__)
 
@@ -25,11 +32,100 @@ def seed_tables():
         User(
             username="user1",
             password=bcrypt.generate_password_hash('password').decode('utf-8'),
-            is_admin=False
         )
     ]
 
     db.session.add_all(users)
+
+    status = [
+        Status(
+            status="Plan to watch"
+        ),
+        Status(
+            status="Watching"
+        ),
+        Status(
+            status="Completed"
+        ),
+        Status(
+            status="Re-watching"
+        ),
+        Status(
+            status="On hold"
+        ),
+        Status(
+            status="Dropped"
+        ),
+    ]
+
+    db.session.add_all(status)
+
+    types = [
+        Type(
+            type="Series"
+        ),
+        Type(
+            type="Movie"
+        ),
+    ]
+
+    db.session.add_all(types)
+
+    ratings = [
+        Rating(
+            rating="1 Star"
+        ),
+        Rating(
+            rating="2 Star"
+        ),
+        Rating(
+            rating="3 Star"
+        ),
+        Rating(
+            rating="4 Star"
+        ),
+        Rating(
+            rating="5 Star"
+        )
+    ]
+
+    db.session.add_all(ratings)
+
+    reviews = [
+        Review(
+            user=users[0],
+            title="Anime 1",
+            status=status[2],
+            type=types[0],
+            rating=ratings[4],
+            eps_watched=10,
+            eps_total=24,
+            date_started=datetime(2024, 1, 12),
+            recom=0,
+            fav=1,
+            com="It was pretty good, but didn't finish"
+        ),
+        Review(
+            user=users[1],
+            title="Anime 2",
+            status=status[0],
+            type=types[1],
+            eps_total=1,
+            recom=1,
+            com="I've heard it's good."
+        ),
+        Review(
+            user=users[1],
+            title="Anime 3",
+            status=status[5],
+            type=types[0],
+            eps_total=12,
+            com="Haven't gotten back around to watching this yeat."
+        )
+    ]
+
+    db.session.add_all(reviews)
+
     db.session.commit()
 
     print("Tables seeded")

@@ -4,9 +4,9 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     id = db.Column(db.Integer, primary_key=True)
-    rating = db.Column(db.Integer, nullable=False, unique=True)
+    rating = db.Column(db.String, nullable=False, unique=True)
 
-    reviews = db.relationship('Review', back_populates='Rating')
+    reviews = db.relationship('Review', back_populates='rating')
 
 class RatingSchema(ma.Schema):
     class Meta:

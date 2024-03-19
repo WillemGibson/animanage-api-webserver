@@ -7,7 +7,7 @@ class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String, nullable=False, unique=True)
 
-    reviews = db.relationship('Review', back_populates='Status')
+    reviews = db.relationship('Review', back_populates='status')
 
 class StatusSchema(ma.Schema):
     class Meta:

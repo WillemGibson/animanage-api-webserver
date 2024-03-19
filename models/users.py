@@ -12,7 +12,7 @@ class User(db.Model):
     reviews = db.relationship('Review', back_populates='user', cascade="")
 
 class UserSchema(ma.Schema):
-    reviews = fields.list(fields.Nested('ReviewSchema', exclude=['user']))
+    reviews = fields.List(fields.Nested('ReviewSchema', exclude=['user']))
 
     class Meta:
         fields = ('id', 'username', 'password', 'is_admin')

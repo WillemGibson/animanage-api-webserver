@@ -6,7 +6,7 @@ from flask_jwt_extended import create_access_token
 from psycopg2 import errorcodes
 
 from init import db, bcrypt
-from models.user import User, user_schema
+from models.users import User, user_schema
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
