@@ -8,7 +8,7 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
-    # type_id = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
+    type_id = db.Column(db.Integer, db.ForeignKey('types.id'), nullable=False)
     # rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'), nullable=False)
     # genre
     eps_watched = db.Column(db.Integer, nullable=True)
@@ -21,13 +21,13 @@ class Review(db.Model):
 
     user = db.relationship('User', back_populates='reviews')
     status = db.relationship('Status', back_populates='reviews')
-    # type = db.relationship('Type', back_populates='reviews')
+    type = db.relationship('Type', back_populates='reviews')
     # rating = db.relationship('Rating', back_populates='reviews')
 
 class ReviewSchema(ma.Schema):
     user = fields.Nested('UserSchema', only=['username'])
     status = fields.Nested('StatusSchema', only=['status'])
-    # type = fields.Nested('TypeSchema', only=['type'])
+    type = fields.Nested('TypeSchema', only=['type'])
     # rating = fields.Nested('RatingSchema', only=['rating'])
 
     class meta:
