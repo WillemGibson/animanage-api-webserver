@@ -30,8 +30,9 @@ class ReviewSchema(ma.Schema):
     type = fields.Nested('TypeSchema', only=['type'])
     rating = fields.Nested('RatingSchema', only=['rating'])
 
-    class meta:
+    class Meta:
         fields = ('id', 'user', 'title', 'status', 'type', 'rating', 'eps_watched', 'eps_total', 'date_started', 'date_finished', 'recom', 'fav', 'com')
+        ordered = True
     
 review_schema = ReviewSchema()
 reviews_schema = ReviewSchema(many=True)
