@@ -2,6 +2,7 @@ from flask import Blueprint, request
 
 from init import db
 from models.reviews import Review, reviews_schema, review_schema
+from models.genres import Genre, genres_schema, genre_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 reviews_bp = Blueprint('reviews', __name__, url_prefix='/reviews')
@@ -71,6 +72,7 @@ def delete_review(review_id):
         return {'Error': f"Review {review_id} not found"}, 404
     pass
 
+# https://localhost:8080/reviews/6 - PUT or PATCH
 @reviews_bp.route('/<int:review_id>', methods=['PUT', 'PATCH'])
 def update_review(review_id):
     # Get the data to be updated form the body of the request
@@ -101,3 +103,63 @@ def update_review(review_id):
     else:
         # return error message
         return {"Error": f"Review {review_id} not found"}, 404
+
+# Genre Endpoints
+    
+# https://localhost:8080/reviews/6/genres/ - GET
+# @reviews_bp.route('/<int:review_id>/genres')
+# def check_genres(review_id): # review_id = 4
+#     stmt = db.select(Genre).filter_by(genres_id) # SELECT * FROM reviews WHERE id=4
+#     review = db.session.scalar(stmt)
+
+#     if review:
+#         return review_schema.dump(review)
+#     else:
+#         return {"error": f"Review {review_id} does not have any genres"}
+    
+# https://localhost:8080/reviews/6/genres/10 - POST
+@reviews_bp.route('/<int:review_id>/genres/<int:genre_id>', methods=['POST'])
+def link_genre_to_review(review_id, genre_id):
+    # Get the data to be updated form the body of the request
+    body_data = request.get_json()
+    # get the review & genre from their respected db whose fields need to be updated
+    stmt1 = db.select(Review).filter_by(id=review_id)
+    stmt2 = db.select(Genre).filter_by(id=genre_id)
+
+    review = db.session.scalar(stmt1)
+    genre = db.session.scalar(stmt2)
+
+    # if review exists
+    if review:
+        # update the fields
+        review.genres.append(genre)
+        # commit the changes
+        db.session.commit()
+        # return updated review
+        return review_schema.dump(review)
+    # else
+    else:
+        # return error message
+        return {"Error": f"Genre {genre_id} could not connect to {review_id}"}, 404
+    
+# https://localhost:8080/reviews/6/genres/10 - DELETE
+@reviews_bp.route('/<int:review_id>/genres/<int:genre_id>', methods=['DELETE'])
+def delete_linked_genre(review_id, genre_id):
+    # get the review & genre from their respected db with id = review_id
+    stmt1 = db.select(Review).where(Review.id == review_id)
+    stmt2 = db.select(Genre).where(Genre.id == genre_id)
+
+    review = db.session.scalar(stmt1)
+    genre = db.session.scalar(stmt2)
+    # if review exists
+    if review:
+        # update the fields
+        review.genres.remove(genre)
+        # commit the changes
+        db.session.commit()
+        # return updated review
+        return review_schema.dump(review)
+    # else
+    else:
+        # return error message
+        return {"Error": f"Genre {genre_id} could not connect to {review_id}"}, 404

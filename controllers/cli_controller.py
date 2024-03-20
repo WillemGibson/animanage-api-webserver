@@ -8,6 +8,8 @@ from models.reviews import Review
 from models.status import Status
 from models.types import Type
 from models.ratings import Rating
+from models.genres import Genre
+from models.reviews_genres import ReviewsGenres
 
 db_commands = Blueprint('db', __name__)
 
@@ -90,6 +92,74 @@ def seed_tables():
     ]
 
     db.session.add_all(ratings)
+
+    genres = {
+        Genre(
+            genre="Action"
+        ),
+        Genre(
+            genre="Adventure"
+        ),
+        Genre(
+            genre="Comedy"
+        ),
+        Genre(
+            genre="Dark"
+        ),
+        Genre(
+            genre="Drama"
+        ),
+        Genre(
+            genre="Fanstasy"
+        ),
+        Genre(
+            genre="Historical"
+        ),
+        Genre(
+            genre="Horror"
+        ),
+        Genre(
+            genre="Isekai"
+        ),
+        Genre(
+            genre="Mystery"
+        ),
+        Genre(
+            genre="Post-Apocalypic"
+        ),
+        Genre(
+            genre="Psychological"
+        ),
+        Genre(
+            genre="Romance"
+        ),
+        Genre(
+            genre="Sci-fi"
+        ),
+        Genre(
+            genre="Seinen"
+        ),
+        Genre(
+            genre="Shoujo"
+        ),
+        Genre(
+            genre="Shounen"
+        ),
+        Genre(
+            genre="Slice of life"
+        ),
+        Genre(
+            genre="Supernatural"
+        ),
+        Genre(
+            genre="Thriller"
+        ),
+        Genre(
+            genre="Tragedy"
+        ),
+    }
+
+    db.session.add_all(genres)
 
     reviews = [
         Review(
