@@ -10,7 +10,6 @@ class Review(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     type_id = db.Column(db.Integer, db.ForeignKey('types.id'), nullable=False)
     rating_id = db.Column(db.Integer, db.ForeignKey('ratings.id'), nullable=True)
-    # genre
     eps_watched = db.Column(db.Integer, nullable=True)
     eps_total = db.Column(db.Integer, nullable=True)
     date_started = db.Column(db.Date, nullable=True)
@@ -23,15 +22,17 @@ class Review(db.Model):
     status = db.relationship('Status', back_populates='reviews')
     type = db.relationship('Type', back_populates='reviews')
     rating = db.relationship('Rating', back_populates='reviews')
+    genres = db.relationship('Genre', back_populates='reviews', secondary='reviews_genres')
 
 class ReviewSchema(ma.Schema):
     user = fields.Nested('UserSchema', only=['username'])
     status = fields.Nested('StatusSchema', only=['status'])
     type = fields.Nested('TypeSchema', only=['type'])
     rating = fields.Nested('RatingSchema', only=['rating'])
+    genres = fields.List(fields.Nested('GenreSchema', dump_only=True))
 
     class Meta:
-        fields = ('id', 'user', 'title', 'status', 'type', 'rating', 'eps_watched', 'eps_total', 'date_started', 'date_finished', 'recom', 'fav', 'com')
+        fields = ('id', 'user', 'title', 'status', 'type', 'rating', 'genres', 'eps_watched', 'eps_total', 'date_started', 'date_finished', 'recom', 'fav', 'com')
         ordered = True
     
 review_schema = ReviewSchema()
