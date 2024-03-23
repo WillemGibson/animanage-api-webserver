@@ -9,6 +9,7 @@ reviews_bp = Blueprint('reviews', __name__, url_prefix='/reviews')
 
 # http://localhost:8080/reviews - GET
 @reviews_bp.route('/')
+@jwt_required()
 def get_all_reviews():
     stmt = db.select(Review).order_by(Review.title.asc())
     reviews = db.session.scalars(stmt)
@@ -17,6 +18,7 @@ def get_all_reviews():
 
 # http://localhost:8080/reviews/id - GET
 @reviews_bp.route('/<int:review_id>')
+@jwt_required()
 def get_one_review(review_id): # review_id = 4
     stmt = db.select(Review).filter_by(id=review_id) # SELECT * FROM reviews WHERE id=4
     review = db.session.scalar(stmt)
@@ -55,6 +57,7 @@ def create_review():
 
 # https://localhost:8080/reviews/6 - DELETE
 @reviews_bp.route('/<int:review_id>', methods=['DELETE'])
+@jwt_required()
 def delete_review(review_id):
     # get the review from the db with id = review_id
     stmt = db.select(Review).where(Review.id == review_id)
@@ -74,6 +77,7 @@ def delete_review(review_id):
 
 # https://localhost:8080/reviews/6 - PUT or PATCH
 @reviews_bp.route('/<int:review_id>', methods=['PUT', 'PATCH'])
+@jwt_required()
 def update_review(review_id):
     # Get the data to be updated form the body of the request
     body_data = request.get_json()
@@ -119,6 +123,7 @@ def update_review(review_id):
     
 # https://localhost:8080/reviews/6/genres/10 - POST
 @reviews_bp.route('/<int:review_id>/genres/<int:genre_id>', methods=['POST'])
+@jwt_required()
 def link_genre_to_review(review_id, genre_id):
     # Get the data to be updated form the body of the request
     body_data = request.get_json()
@@ -144,6 +149,7 @@ def link_genre_to_review(review_id, genre_id):
     
 # https://localhost:8080/reviews/6/genres/10 - DELETE
 @reviews_bp.route('/<int:review_id>/genres/<int:genre_id>', methods=['DELETE'])
+@jwt_required()
 def delete_linked_genre(review_id, genre_id):
     # get the review & genre from their respected db with id = review_id
     stmt1 = db.select(Review).where(Review.id == review_id)
