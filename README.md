@@ -1,8 +1,8 @@
-# Animanage
+# 🇯🇵 Animanage
 
 ## Open Source Anime Management Web API
 
-### Installation
+### ⚙️ Installation
 
 **1.** Create a new PostgreSQL user and grant all permissions.
 
@@ -20,11 +20,11 @@
 
 **6.** Run application using ```flask run```. To stop the application use ***Ctrl + C***.
 
-### Testing & Usage
+### 🧪 Testing & Usage
 
 Using an API client such as Postman or Insomnia (My personal choice), import ***endpoints.json** to import all endpoints.
 
-### System/Hardware Requirements
+### 🖥️ System/Hardware Requirements
 
 - No specific hardware requirements.
 - Operating System: Compatible with any OS that can run Python 3 (e.g., Windows, macOS, Linux).
